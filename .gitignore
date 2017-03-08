@@ -1,0 +1,26 @@
+# OS X
+.DS_Store
+
+# Built files
+dist
+.tmp
+target
+*.zip
+
+# Dependencies
+bower_components
+node_modules
+
+# IDEs
+.settings
+.classpath
+.project
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Misc
+*.log
+.tmp
+

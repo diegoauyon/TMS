@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <title>
+            Turing Machine Simulator </title>
+
+        <!-- meta -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+        <!-- jquery -->
+        <script src="assets/vendors/jquery.min.js"></script>
+        <script src="assets/vendors/jquery.cookie.js"></script>
+
+        <!-- semantic -->
+        <script src="assets/vendors/semantic.min.js"></script>
+        <link href="assets/css/semantic.min.css" type="text/css" rel="stylesheet">
+
+        <!-- layout style -->
+        <link href="assets/css/layout.css" type="text/css" rel="stylesheet">
+
+
+        <!-- codemirror -->
+        <script src="assets/vendors/codemirror.js"></script>
+        <link href="assets/css/codemirror.css" type="text/css" rel="stylesheet">
+
+        <!-- codemirror -->
+        <script src="assets/vendors/nouislider.min.js"></script>
+        <link href="assets/css/nouislider.min.css" type="text/css" rel="stylesheet">
+
+        <!-- kinetic.js -->
+        <script src="assets/vendors/kinetic.min.js"></script>
+
+        <!-- local modules -->
+        <script src="assets/cintas.js"></script>
+
+        <!-- local styles -->
+        <link href="assets/css/TM.css" type="text/css" rel="stylesheet">
+
+
+        <meta name="telephoneUrlScheme" content="jive">
+        <link type="text/css" rel="stylesheet" href="assets/css/base.css">
+    </head>
+
+    <body class="dimmable">
+
+        <h1>Turing Machine Simulator</h1>
+
+
+        <!-- BEGIN MACHINE DIV -->
+        <div class="ui segment" id="machine" style="display:none">
+            <div class="ui centered stackable grid">
+
+                <!-- state, title and steps -->
+                <div class="four wide center aligned column" id="state_text_container">
+                    <h4 class="ui header" id="state_text"></h4>
+                </div>
+                <div class="eight wide center aligned column">
+                    <h2 class="ui header" id="machine_title"></h2>
+                </div>
+                <div class="four wide center aligned column">
+                    <h4 class="ui header" id="counter_text"></h4>
+                </div>
+                <div id="container">
+                    <div class="kineticjs-content" role="presentation"
+                         style="position: relative; display: inline-block; width: 551px; height: 0px;">
+                        <canvas width="551" height="0"
+                                style="padding: 0px; margin: 0px; border: 0px; background: transparent; position: absolute; top: 0px; left: 0px; width: 551px; height: 0px;"></canvas>
+                    </div>
+                </div>
+
+                <!-- controls -->
+                <div class="six wide center aligned column">
+                    <div class="ui action left icon compact input">
+                        <input type="text" id="input" placeholder="Input"> <i class="write icon" id="accept_icon"></i>
+                        <button class="ui big compact button" id="load_input">Load</button>
+                    </div>
+                </div>
+
+                <div class="four wide center aligned column" data-content="Load an input first">
+                    <div class="ui big icon buttons">
+                        <button class="ui button" id="play"><i class="play icon"></i></button>
+                        <button class="ui button" id="pause"><i class="pause icon"></i></button>
+                        <button class="ui button disabled" id="stop"><i class="stop icon"></i></button>
+                        <button class="ui button" id="step"><i class="step forward icon"></i></button>
+                    </div>
+
+                </div>
+
+                <div class="six wide center aligned column" id="speed_column">
+                    <div class="ui grid">
+                        <div class="four wide column">
+                            <h3 class="ui header">Speed:</h3>
+                        </div>
+                        <div class="eleven wide center aligned column">
+                            <div id="speed_bar" class="noUi-target noUi-ltr noUi-horizontal noUi-connect">
+                                <div class="noUi-base">
+                                    <div class="noUi-origin noUi-background" style="left: 50%;">
+                                        <div class="noUi-handle noUi-handle-lower"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END MACHINE DIV -->
+
+        <!-- BEGIN ALERTS DIV -->
+        <div class="ui alert message" id="alert_container" style="display:none">
+            <i class="close icon"></i>
+            <div class="header" id="alert"></div>
+        </div>
+        <!-- END ALERTS DIV -->
+
+        <!-- BEGIN ERRORS DIV -->
+        <div class="ui negative message" style="display: none;" id="log_container">
+            <i class="close icon"></i>
+            <div id="log"></div>
+        </div>
+        <!-- END ERRORS DIV -->
+
+        <!-- BEGIN ERRORS DIV -->
+        <div class="ui positive message" style="display: none;" id="positive_container">
+            <i class="close icon"></i>
+            <div id="log"></div>
+        </div>
+        <!-- END ERRORS DIV -->
+
+        <div class="ui centered stackable grid">
+
+            <!-- BEGIN CODE DIV -->
+            <div class="sixteen wide column">
+                <div class="ui segment" style="padding:0" id="editor_container">
+                    <textarea id="code_editor" style="display: none;"></textarea>
+                    <button id="loader" class="ui bottom attached green fluid button">Compile</button>
+                </div>
+            </div>
+            <!-- END CODE DIV -->
+        </div>
+
+
+        <a onclick="load_code('')" id="code_container" style="display: none;"></a>
+
+
+        <script type="text/javascript">
+          $( '.message .close' ).on( 'click', function () {
+            $( this ).closest( '.message' ).transition( 'fade' );
+          } );
+        </script>
+
+
+        <script src="assets/TMcode.js"></script>
+        <script src="assets/helper.js"></script>
+
+
+        <div class="ui dimmer modals page">
+            <div class="ui basic modal" id="delete_modal">
+                <div class="header" id="remove_machine_name"></div>
+                <div class="image content">
+                    <div class="image">
+                        <i class="trash icon"></i>
+                    </div>
+                    <div class="description">
+                        <p>This action cannot be undone.</p>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui small red basic inverted button deny">
+                        <i class="remove icon"></i> Cancel
+                    </div>
+                    <div class="ui small green basic inverted button approve">
+                        <i class="checkmark icon"></i> Delete
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
