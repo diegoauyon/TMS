@@ -1,16 +1,17 @@
 # TMS
-Simplified version of Martin Ugarte (Just to be sure that it will always live)
+
+Simplified version of Martin Ugarte (Just to be sure that it will always live).
+
+[Live version](https://diegoauyon.github.io/TMS/index.html)
 
 
-# Syntax
+## Syntax
 
-```name: [name_of_machine]
+
+```
+name: [name_of_machine]
 init: [initial_state]
 accept: [accept_state_1],... ,[accept_state_n]
-```
-
-* Quintuples
-```
 [current_state],[read_symbol]
 [new_state],[write_symbol],[r|l|-]
 ```
@@ -24,11 +25,12 @@ r = right
 _ = blanks
 ```
 
-# Example
+## Example
 
 This give the binary sucesor of the binary input
+**Note**: The first state already expects an input, so there is no need of a state q0 that goest from blank to something
 
-```apacheconfig
+```
 name: binary_sucesor
 init: q1
 accept: qfin
@@ -80,7 +82,5 @@ q6,1,l
 
 q6,_
 qfin,_,-
-
-
 ```
 
