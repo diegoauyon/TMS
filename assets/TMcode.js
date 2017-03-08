@@ -416,7 +416,7 @@ function loadMachine () {
             }
             if ( !error ) {
               for ( var j = 1; j < new_ntapes + 1 && !error; j++ ) {
-                if ( consequent[ new_ntapes + j ] != '<' && consequent[ new_ntapes + j ] != '>' && consequent[ new_ntapes + j ] != '-' ) {
+                if ( consequent[ new_ntapes + j ] != 'l' && consequent[ new_ntapes + j ] != 'r' && consequent[ new_ntapes + j ] != '-' ) {
                   error  = true;
                   errmsg =
                     "Incorrect transition in line " + (i + comment_lines + 1) + ". Movements must be left (<), right (>) or center (-).";
@@ -505,13 +505,13 @@ function transicion () {
     for ( var i = 0; i < n_tapes; i++ ) {
       tapes[ i ].set_middle_symbol( aux[ i + 1 ] );
 
-      if ( aux[ i + n_tapes + 1 ] == '>' ) {
+      if ( aux[ i + n_tapes + 1 ] == 'r' ) {
         tapes[ i ].mover( -1, function () {
           transicion();
         } );
       }
 
-      else if ( aux[ i + n_tapes + 1 ] == '<' ) {
+      else if ( aux[ i + n_tapes + 1 ] == 'l' ) {
         tapes[ i ].mover( 1, function () {
           transicion();
         } );

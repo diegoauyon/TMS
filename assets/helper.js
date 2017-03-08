@@ -21,8 +21,8 @@ function load_code ( code ) {
                            '//-------DELTA FUNCTION:\n' +
                            '[current_state],[read_symbol]\n' +
                            '[new_state],[write_symbol],[>|<|-]\n\n' +
-                           '// < = left\n' +
-                           '// > = right\n' +
+                           '// l = left\n' +
+                           '// r = right\n' +
                            '// - = hold\n' +
                            '// use underscore for blank cells\n\n' +
                            '//States and symbols are case-sensitive\n\n' +
